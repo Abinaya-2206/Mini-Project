@@ -1,0 +1,107 @@
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementClickInterceptedException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+import pandas as pd
+
+def setup_driver(chrome_driver_path):
+    # Create a Service object
+    service = Service(chrome_driver_path)
+    
+    # Set up Chrome options
+    options = Options()
+    options.add_argument("--start-maximized")
+    options.add_argument("--headless")  # Uncomment if you want to run in headless mode
+    
+    # Initialize the WebDriver with the Service and Options objects
+    driver = webdriver.Chrome(service=service, options=options)
+    return driver
+    
+
+def extract_bus_details(driver, route_link, state):
+    """
+    Extract bus details from a route link page.
+    
+    Args:
+    driver (webdriver): The WebDriver instance.
+    route_link (str): The route link URL.
+    state (str): The state where the bus operates.
+    
+    Returns:
+    list of dict: List of dictionaries containing bus details.
+    """
+    bus_details = []
+
+    try:
+        driver.get(route_link)
+        
+        # Wait for the bus details section to be present
+        wait = WebDriverWait(driver, 20)
+        wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'bus-item')))
+        
+        buses = driver.find_elements(By.CLASS_NAME, 'bus-item')
+        
+        for bus in buses:
+            try:
+                bus_name = bus.find_element(By.CLASS_NAME, 'travels').text
+                bus_type = bus.find_element(By.CLASS_NAME, 'bus-type').text
+                start_time = bus.find_element(By.CLASS_NAME, 'dp-time').text
+                end_time = bus.find_element(By.CLASS_NAME, 'bp-time').text
+                rating = bus.find_element(By.CLASS_NAME, 'rating-sec').text
+                duration = bus.find_element(By.CLASS_NAME, 'dur').text
+                price = bus.find_element(By.CLASS_NAME, 'fare').text
+                seats_available = bus.find_element(By.CLASS_NAME, 'seat-left').text
+                
+                # Check if all data points are valid before appending
+                if all([bus_name, bus_type, start_time, end_time, rating, duration, price, seats_available]):
+                    bus_details.append({
+                        'Bus Name': bus_name,
+                        'Bus Type': bus_type,
+                        'Start Time': start_time,
+                        'End Time': end_time,
+                        'Rating': rating,
+                        'Total Duration': duration,
+                        'Price': price,
+                        'Seats Available': seats_available,
+                        'Route Name': route_link.split('/')[-1].replace('-', ' ').title(),
+                        'Route Link': route_link,
+                        'State': state
+                    })
+            except NoSuchElementException as e:
+                print(f"Error extracting some details for a bus: {e}")
+
+    except (NoSuchElementException, TimeoutException) as e:
+        print(f"Error encountered for route {route_link}: {e}")
+
+    return bus_details
+
+def main():
+    # Specify the path to the ChromeDriver executable
+    chrome_driver_path = r'C:\Users\Prasanna SK\Downloads\chromedriver-win64\chromedriver-win64\chromedriver.exe'
+
+    # Initialize the WebDriver
+    driver = setup_driver(chrome_driver_path)
+    
+    # Read the route links from the CSV file
+    df_routes = pd.read_csv('all_routes.csv')
+    
+    all_bus_details = []
+
+    try:
+        for index, row in df_routes.iterrows():
+            route_link = row['Route Links']
+            state = row['State']
+            bus_details = extract_bus_details(driver, route_link, state)
+            all_bus_details.extend(bus_details)
+    finally:
+        # Ensure the browser is closed properly
+        driver.quit()
+
+    # Save all bus details to a CSV file
+    df = pd.DataFrame(all_bus_details)
+    df.to_csv('all_bus_details.csv', index=False)
+    print("All bus details saved to all_bus_details.csv")
