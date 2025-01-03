@@ -42,7 +42,7 @@ The solution can be applied to various business scenarios including:
     To know more about Pandas. Click here https://pandas.pydata.org/docs/
 
 
- **Install Packages:
+**Insatll Packages:**
 
       Selenium – pip install selenium
       Pandas – pip install pandas
@@ -50,6 +50,9 @@ The solution can be applied to various business scenarios including:
       Streamlit-Option-Menu – pip install streamlit-option-menu
      
   --This project contains four files
-    all_bus_details.csv
-    all_busroutes.csv
-    redBusDashboard.py
+  
+     all_bus_details.csv
+     
+     all_routes.csv
+    
+     redBusDashboard.py
