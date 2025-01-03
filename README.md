@@ -26,33 +26,37 @@ The solution can be applied to various business scenarios including:
    Selenium Python bindings provide a convenient API to access Selenium WebDrivers like Firefox, Ie, Chrome, Remote etc. To know more Click here https://selenium-python.readthedocs.io/
  
  -**Streamlit:**
+  
+  Streamlit turns data scripts into shareable web apps in minutes. All in pure Python. No front‑end experience required.
+  As soon as you run the script as shown above, a local Streamlit server will spin up and your app will open in a new tab
+  in your default web browser. The app is your canvas, where you'll draw charts, text, widgets, tables, and more.
 
-    Streamlit turns data scripts into shareable web apps in minutes. All in pure Python. No front‑end experience required.
-    As soon as you run the script as shown above, a local Streamlit server will spin up and your app will open in a new tab
-    in your default web browser. The app is your canvas, where you'll draw charts, text, widgets, tables, and more.
-
-    To know more about Streamlit. Click here https://docs.streamlit.io/
+ To know more about Streamlit. Click here https://docs.streamlit.io/
 
  -**Pandas:**
 
-    Pandas is a powerful and open-source Python library. The Pandas library is used for data manipulation and analysis.
-    Pandas consist of data structures and functions to perform efficient operations on data. pandas is a Python package providing fast, flexible, and expressive data structures designed to make working with “relational” or “labeled” data both easy and intuitive. It aims 
-    to be the fundamental high-level building block for doing practical, real-world data analysis in Python. Additionally, it has the broader goal of becoming the most powerful and flexible open source data analysis/manipulation tool available in any language.
+Pandas is a powerful and open-source Python library. The Pandas library is used for data manipulation and analysis.
+Pandas consist of data structures and functions to perform efficient operations on data. pandas is a Python package providing fast, flexible, and expressive data structures designed to make working with “relational” or “labeled” data both easy and intuitive. It aims 
+to be the fundamental high-level building block for doing practical, real-world data analysis in Python. Additionally, it has the broader goal of becoming the most powerful and flexible open source data analysis/manipulation tool available in any language.
 
-    To know more about Pandas. Click here https://pandas.pydata.org/docs/
+To know more about Pandas. Click here https://pandas.pydata.org/docs/
 
 
 **Insatll Packages:**
 
-      Selenium – pip install selenium
-      Pandas – pip install pandas
-      Streamlit – pip install streamlit
-      Streamlit-Option-Menu – pip install streamlit-option-menu
+Selenium – pip install selenium
+Pandas – pip install pandas
+Streamlit – pip install streamlit
+Streamlit-Option-Menu – pip install streamlit-option-menu
      
-  --This project contains four files
+**--This project contains four files**
   
-     all_bus_details.csv
+ all_bus_details.csv
      
-     all_routes.csv
+ all_routes.csv
     
-     redBusDashboard.py
+ redBusDashboard.py
+
+**How to run the code:**
+
+Run command “python -m streamlit run redBusDashboard.py” in terminal
